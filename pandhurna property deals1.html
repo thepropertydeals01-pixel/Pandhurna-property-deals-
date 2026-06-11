@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pandhurna Property Deals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C96A;
+      --gold-dim: #8a6f2e;
+      --black: #0A0A0A;
+      --dark: #111111;
+      --card: #161616;
+      --border: rgba(201,168,76,0.25);
+      --text: #F0EAD6;
+      --muted: #888;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      text-align: center;
+      padding: 52px 24px 36px;
+      position: relative;
+    }
+    .header::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+      margin: 20px auto 0;
+    }
+    .logo-label {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 7vw, 48px);
+      font-weight: 900;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dim));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header p {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── CHOICE SECTION ─── */
+    .choice-section {
+      padding: 12px 20px 48px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .choice-label {
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 20px;
+    }
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .choice-btn {
+      border: 1.5px solid var(--border);
+      background: var(--card);
+      border-radius: 14px;
+      padding: 28px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .choice-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(201,168,76,0.08), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .choice-btn:hover::before { opacity: 1; }
+    .choice-btn:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+    }
+    .choice-btn.active {
+      border-color: var(--gold);
+      background: #1a1608;
+    }
+    .choice-icon { font-size: 36px; margin-bottom: 10px; }
+    .choice-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+    }
+    .choice-sub {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ─── FORMS ─── */
+    .form-wrapper {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+      display: none;
+    }
+    .form-wrapper.visible { display: block; }
+
+    .form-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 32px 28px;
+    }
+    .form-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+    }
+    .form-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .field { margin-bottom: 18px; }
+    label {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 7px;
+    }
+    input, select, textarea {
+      width: 100%;
+      background: #0e0e0e;
+      border: 1.5px solid rgba(201,168,76,0.2);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      padding: 13px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+    }
+    textarea { resize: vertical; min-height: 90px; }
+    select option { background: #161616; }
+
+    .radio-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .radio-option {
+      border: 1.5px solid rgba(201,168,76,0.2);
+      border-radius: 10px;
+      padding: 11px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .radio-option:hover { border-color: var(--gold-dim); color: var(--text); }
+    .radio-option.selected { border-color: var(--gold); color: var(--gold-light); background: #1a1608; }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+      border: none;
+      border-radius: 12px;
+      color: #0A0A0A;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 16px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .submit-btn:active { transform: translateY(0); }
+
+    /* ─── SUCCESS ─── */
+    .success-box {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .success-box.visible { display: block; }
+    .success-icon { font-size: 52px; margin-bottom: 16px; }
+    .success-box h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: var(--gold-light);
+      margin-bottom: 10px;
+    }
+    .success-box p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .wa-btn {
+      display: inline-block;
+      margin-top: 24px;
+      background: #25D366;
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .wa-btn:hover { opacity: 0.9; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 11px;
+      color: #333;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 400px) {
+      .form-card { padding: 24px 18px; }
+      .radio-group { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-label">✦ Pandhurna Property Deals ✦</div>
+    <h1>Aapki Property,<br/>Hamare Haath</h1>
+    <p>Pandhurna • Nagpur | Plot • Farm • Residential</p>
+  </div>
+
+  <!-- CHOICE -->
+  <div class="choice-section">
+    <div class="choice-label">Aap kya chahte hain?</div>
+    <div class="choice-grid">
+      <div class="choice-btn" id="btn-buy" onclick="showForm('buy')">
+        <div class="choice-icon">🏠</div>
+        <div class="choice-title">Kharidna Hai</div>
+        <div class="choice-sub">Plot, Farm ya Ghar dhundhna hai</div>
+      </div>
+      <div class="choice-btn" id="btn-sell" onclick="showForm('sell')">
+        <div class="choice-icon">💰</div>
+        <div class="choice-title">Bechna Hai</div>
+        <div class="choice-sub">Apni zameen ya property bechni hai</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUY FORM -->
+  <div class="form-wrapper" id="form-buy">
+    <div class="form-card" id="buy-card">
+      <div class="form-heading">Property Dhundh Rahe Hain?</div>
+      <div class="form-sub">Apni details bharo — hum aapko best options dikhayenge 🏡</div>
+
+      <div class="field">
+        <label>Aapka Naam *</label>
+        <input type="text" id="buy-name" placeholder="Jaise: Ramesh Kumar"/>
+      </div>
+      <div class="field">
+        <label>Mobile Number *</label>
+        <input type="tel" id="buy-phone" placeholder="10 digit number"/>
+      </div>
+      <div class="field">
+        <label>Kya chahiye? *</label>
+        <div class="radio-group" id="buy-type">
+          <div class="radio-option" onclick="selectRadio('buy-type',this)">🏘️ Residential Plot</div>
+          <div class="radio-option" onclick="selectRadio('buy-type',this)">🌾 Farm / Khet</div>
+          <div class="radio-option" onclick="selectRadio('buy-type',this)">🏠 Ghar / Makaan</div>
+          <div class="radio-option" onclick="selectRadio('buy-type',this)">🏢 Commercial</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Budget *</label>
+        <div class="radio-group" id="buy-budget">
+          <div class="radio-option" onclick="selectRadio('buy-budget',this)">5–10 Lakh</div>
+          <div class="radio-option" onclick="selectRadio('buy-budget',this)">10–25 Lakh</div>
+          <div class="radio-option" onclick="selectRadio('buy-budget',this)">25–50 Lakh</div>
+          <div class="radio-option" onclick="selectRadio('buy-budget',this)">50 Lakh+</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Location *</label>
+        <div class="radio-group" id="buy-location">
+          <div class="radio-option" onclick="selectRadio('buy-location',this)">📍 Pandhurna</div>
+          <div class="radio-option" onclick="selectRadio('buy-location',this)">📍 Nagpur</div>
+          <div class="radio-option" onclick="selectRadio('buy-location',this)">📍 Dono</div>
+          <div class="radio-option" onclick="selectRadio('buy-location',this)">📍 Kuch bhi</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Site Visit chahiye?</label>
+        <div class="radio-group" id="buy-visit">
+          <div class="radio-option" onclick="selectRadio('buy-visit',this)">✅ Haan, zaroor</div>
+          <div class="radio-option" onclick="selectRadio('buy-visit',this)">📞 Pehle call karo</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Koi aur requirement? (optional)</label>
+        <textarea id="buy-note" placeholder="Jaise: Corner plot chahiye, road ke paas..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitForm('buy')">📩 Enquiry Bhejo</button>
+    </div>
+
+    <div class="success-box" id="buy-success">
+      <div class="success-icon">🎉</div>
+      <h2>Shukriya!</h2>
+      <p>Aapki enquiry mil gayi.<br/>Hum jald hi aapko call karenge.<br/>Ya seedha WhatsApp karo 👇</p>
+      <a class="wa-btn" href="https://wa.me/919691416186" target="_blank">💬 WhatsApp pe Baat Karo</a>
+    </div>
+  </div>
+
+  <!-- SELL FORM -->
+  <div class="form-wrapper" id="form-sell">
+    <div class="form-card" id="sell-card">
+      <div class="form-heading">Property Bechni Hai?</div>
+      <div class="form-sub">Apni zameen ki details do — hum best buyer dhundhenge 💰</div>
+
+      <div class="field">
+        <label>Aapka Naam *</label>
+        <input type="text" id="sell-name" placeholder="Jaise: Suresh Patil"/>
+      </div>
+      <div class="field">
+        <label>Mobile Number *</label>
+        <input type="tel" id="sell-phone" placeholder="10 digit number"/>
+      </div>
+      <div class="field">
+        <label>Property ka Type *</label>
+        <div class="radio-group" id="sell-type">
+          <div class="radio-option" onclick="selectRadio('sell-type',this)">🏘️ Residential Plot</div>
+          <div class="radio-option" onclick="selectRadio('sell-type',this)">🌾 Farm / Khet</div>
+          <div class="radio-option" onclick="selectRadio('sell-type',this)">🏠 Ghar / Makaan</div>
+          <div class="radio-option" onclick="selectRadio('sell-type',this)">🏢 Commercial</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Property Location *</label>
+        <input type="text" id="sell-location" placeholder="Jaise: Santoshi Mata Ward, Pandhurna"/>
+      </div>
+      <div class="field">
+        <label>Area / Size *</label>
+        <input type="text" id="sell-area" placeholder="Jaise: 1500 sqft, 2 Acre, 10 Guntha"/>
+      </div>
+      <div class="field">
+        <label>Expected Price *</label>
+        <input type="text" id="sell-price" placeholder="Jaise: 15 Lakh, Negotiable"/>
+      </div>
+      <div class="field">
+        <label>Documents Ready Hain?</label>
+        <div class="radio-group" id="sell-docs">
+          <div class="radio-option" onclick="selectRadio('sell-docs',this)">✅ Haan, sab ready</div>
+          <div class="radio-option" onclick="selectRadio('sell-docs',this)">🔄 Process mein hai</div>
+          <div class="radio-option" onclick="selectRadio('sell-docs',this)">❓ Help chahiye</div>
+          <div class="radio-option" onclick="selectRadio('sell-docs',this)">❌ Abhi nahi</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Kuch aur batana hai? (optional)</label>
+        <textarea id="sell-note" placeholder="Jaise: Boring hai, road touching, etc..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitForm('sell')">📩 Enquiry Bhejo</button>
+    </div>
+
+    <div class="success-box" id="sell-success">
+      <div class="success-icon">🎉</div>
+      <h2>Shukriya!</h2>
+      <p>Aapki property details mil gayi.<br/>Hum jald hi aapko call karenge.<br/>Ya seedha WhatsApp karo 👇</p>
+      <a class="wa-btn" href="https://wa.me/919691416186" target="_blank">💬 WhatsApp pe Baat Karo</a>
+    </div>
+  </div>
+
+  <footer>© 2026 Pandhurna Property Deals · 9691416186</footer>
+
+  <script>
+    function showForm(type) {
+      // highlight button
+      document.getElementById('btn-buy').classList.remove('active');
+      document.getElementById('btn-sell').classList.remove('active');
+      document.getElementById('btn-' + type).classList.add('active');
+
+      // hide both forms
+      document.getElementById('form-buy').classList.remove('visible');
+      document.getElementById('form-sell').classList.remove('visible');
+
+      // show chosen form
+      document.getElementById('form-' + type).classList.add('visible');
+
+      // scroll to form
+      setTimeout(() => {
+        document.getElementById('form-' + type).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+
+    function selectRadio(groupId, el) {
+      document.querySelectorAll('#' + groupId + ' .radio-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    async function submitForm(type) {
+      const name = document.getElementById(type + '-name').value.trim();
+      const phone = document.getElementById(type + '-phone').value.trim();
+
+      if (!name) { alert('Naam zaroor bharo!'); return; }
+      if (!phone || phone.length < 10) { alert('Sahi mobile number daalo!'); return; }
+
+      // Build data object & WhatsApp message
+      let formData = { name, phone };
+      let msg = '';
+
+      if (type === 'buy') {
+        const propType = getSelected('buy-type') || 'N/A';
+        const budget = getSelected('buy-budget') || 'N/A';
+        const location = getSelected('buy-location') || 'N/A';
+        const visit = getSelected('buy-visit') || 'N/A';
+        const note = document.getElementById('buy-note').value.trim();
+        formData = { ...formData, enquiry_type: 'KHARIDNA HAI', property_type: propType, budget, location, site_visit: visit, note };
+        msg = `🏠 *KHARIDNA HAI — New Enquiry*\n\n👤 Naam: ${name}\n📞 Phone: ${phone}\n🏷️ Type: ${propType}\n💰 Budget: ${budget}\n📍 Location: ${location}\n🚗 Site Visit: ${visit}${note ? '\n📝 Note: ' + note : ''}`;
+      } else {
+        const propType = getSelected('sell-type') || 'N/A';
+        const location = document.getElementById('sell-location').value.trim();
+        const area = document.getElementById('sell-area').value.trim();
+        const price = document.getElementById('sell-price').value.trim();
+        const docs = getSelected('sell-docs') || 'N/A';
+        const note = document.getElementById('sell-note').value.trim();
+        formData = { ...formData, enquiry_type: 'BECHNA HAI', property_type: propType, location, area, expected_price: price, documents: docs, note };
+        msg = `💰 *BECHNA HAI — New Enquiry*\n\n👤 Naam: ${name}\n📞 Phone: ${phone}\n🏷️ Type: ${propType}\n📍 Location: ${location}\n📐 Area: ${area}\n💵 Price: ${price}\n📄 Docs: ${docs}${note ? '\n📝 Note: ' + note : ''}`;
+      }
+
+      // Send to Formspree (email notification to pandhurna34@gmail.com)
+      try {
+        await fetch('https://formspree.io/f/xgoblnll', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+      } catch(e) { console.log('Formspree error', e); }
+
+      // Show success screen
+      document.getElementById(type + '-card').style.display = 'none';
+      document.getElementById(type + '-success').classList.add('visible');
+
+      // Auto-open WhatsApp with pre-filled message
+      const waUrl = 'https://wa.me/919691416186?text=' + encodeURIComponent(msg);
+      setTimeout(() => window.open(waUrl, '_blank'), 600);
+    }
+
+    function getSelected(groupId) {
+      const sel = document.querySelector('#' + groupId + ' .radio-option.selected');
+      return sel ? sel.textContent.trim() : null;
+    }
+  </script>
+</body>
+</html>
